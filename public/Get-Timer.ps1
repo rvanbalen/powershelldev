@@ -2,11 +2,11 @@ function Get-Timer {
 
     $url = Get-Url -Endpoint "getTimer"
 
-    $timer = Invoke-RestMethod $Uri $url -Method GET
+    $response = Invoke-RestMethod -Uri $url -Method GET
 
-    return @{
-        Time = $timer.i_state
-        State = $timer.l_state
-        Paused = $timer.p_state
+    return [PSCustomObject]@{
+        TimeLengthRaw = $response.Split(';')[0]
+        TimerState = $response.Split(';')[1]
+        PauseMode = $response.Split(';')[2]
     }
 }
